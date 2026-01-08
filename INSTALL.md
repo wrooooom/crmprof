@@ -7,7 +7,7 @@ Ensure you have the following installed:
 - Composer
 - Node.js >= 18.x
 - npm >= 9.x
-- PostgreSQL >= 13.x
+- PostgreSQL 13+ (or SQLite for development)
 
 ## Installation Steps
 
@@ -37,82 +37,40 @@ php artisan key:generate
 
 ### 3. Configure Database
 
-Edit `.env` file and update database credentials:
+Edit `.env` file and update database credentials. For a quick start with SQLite:
 
 ```env
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=crmprof
-DB_USERNAME=postgres
-DB_PASSWORD=your_password_here
+DB_CONNECTION=sqlite
+```
+And then create the database file:
+```bash
+touch database/database.sqlite
 ```
 
-### 4. Create Database
+### 4. Run Migrations and Seed
 
 ```bash
-# Using createdb command
-createdb crmprof
-
-# OR using psql
-psql -U postgres -c "CREATE DATABASE crmprof;"
+php artisan migrate --seed
 ```
 
-### 5. Run Migrations
+### 5. Start Development Server
 
 ```bash
-php artisan migrate
-```
-
-### 6. Build Frontend Assets
-
-```bash
-# For development (with hot reload)
-npm run dev
-
-# For production
-npm run build
-```
-
-### 7. Start Development Server
-
-```bash
-# Start Laravel server
+# Terminal 1: Start Laravel server
 php artisan serve
 
-# Access at: http://localhost:8000
+# Terminal 2: Start Vite (Frontend)
+npm run dev
 ```
 
-## Quick Start Commands
-
-```bash
-# Development workflow
-composer install && npm install
-cp .env.example .env
-php artisan key:generate
-# Configure .env database credentials
-php artisan migrate
-npm run dev  # In one terminal
-php artisan serve  # In another terminal
-```
+## Demo Credentials
+- **Email:** test@crmprof.local
+- **Password:** password
 
 ## Troubleshooting
 
-### PostgreSQL Connection Issues
-```bash
-# Check PostgreSQL is running
-sudo service postgresql status
-
-# Restart PostgreSQL
-sudo service postgresql restart
-```
-
-### Permission Errors
-```bash
-chmod -R 775 storage bootstrap/cache
-```
-
-### Clear Caches
+### Clearing Caches
+If you encounter issues after updating, try clearing Laravel caches:
 ```bash
 php artisan cache:clear
 php artisan config:clear
@@ -120,12 +78,9 @@ php artisan route:clear
 php artisan view:clear
 ```
 
-## Next Steps
+### Permission Errors
+```bash
+chmod -R 775 storage bootstrap/cache
+```
 
-1. Review project structure in README.md
-2. Create your first model and migration
-3. Build Vue components in `resources/js/components/`
-4. Add routes in `routes/web.php`
-5. Implement business logic in `app/Services/`
-
-For detailed documentation, see [README.md](README.md).
+For more detailed information, see [README.md](README.md).
